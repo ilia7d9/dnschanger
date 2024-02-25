@@ -20,6 +20,14 @@ In the absence of explicit help within the project, this guide aims to fill the 
 
 Feel free to explore the project for a solution to your DNS-related needs.
 
+# Installing DNS
+
+You can run this commands for install 'dns' program in your computer:
+```bash
+chmod +x install.sh
+./install.sh
+```
+
 # Turning on DNS
 
 If you wish to add an anonymous DNS, such as 1.1.1.1, the following command should be executed:
