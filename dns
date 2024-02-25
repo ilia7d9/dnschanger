@@ -1,0 +1,114 @@
+#!/usr/bin/bash
+
+# Colors
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+blue='\033[0;34m'
+magenta='\033[0;35m'
+cyan='\033[0;36m'
+clear='\033[0m'
+
+# Inputs
+command=$1
+dnsn=$2
+dnsn2=$3
+# Code
+if [[ $command == "set" ]]; then
+	if sudo -n true 2>/dev/null; then
+		if [[ $dnsn == "shecan" ]]; then
+			dns1="178.22.122.100"
+			dns2="185.51.200.2"
+		elif [[ $dnsn == "radar" ]]; then
+			dns1="10.202.10.10"
+			dns2="10.202.10.11"
+		elif [[ $dnsn == "electro" ]]; then
+			dns1="78.157.42.100"
+			dns2="78.157.42.101"
+    elif [[ $dnsn == "403" ]]; then
+      dns1="10.202.10.202"
+      dns2="10.202.10.102"
+    else
+			dns1=$dnsn
+			dns2=$dnsn2
+		fi
+		echo "# This file is managed by man:systemd-resolved(8). Do not edit." > /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# This is a dynamic resolv.conf file for connecting local clients to the" >> /etc/resolv.conf
+		echo "# internal DNS stub resolver of systemd-resolved. This file lists all" >> /etc/resolv.conf
+		echo "# configured search domains." >> /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# Run "resolvectl status" to see details about the uplink DNS servers" >> /etc/resolv.conf
+		echo "# currently in use." >> /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# Third party programs must not access this file directly, but only through the" >> /etc/resolv.conf
+		echo "# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way," >> /etc/resolv.conf
+		echo "# replace this symlink by a static file or a different symlink." >> /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# See man:systemd-resolved.service(8) for details about the supported modes of" >> /etc/resolv.conf
+		echo "# operation for /etc/resolv.conf." >> /etc/resolv.conf
+		echo "" >> /etc/resolv.conf
+		echo "nameserver ${dns1}" >> /etc/resolv.conf
+		echo "nameserver ${dns2}" >> /etc/resolv.conf
+		echo "options edns0 trust-ad" >> /etc/resolv.conf
+		# Print
+		echo -e "${green}DNS ${dnsn} was set successfully.${clear}"
+	else
+		echo -e "${red}Please grant sudo access first.${clear}"
+	fi
+elif [[ $command == "status" ]]; then
+	if [[ $dnsn == "shecan" ]]; then
+		if grep -q "nameserver 178.22.122.100" /etc/resolv.conf; then
+			echo -e "${green}Shecan is active.${clear}"
+		else
+			echo -e "${red}Shecan is not active.${clear}"
+		fi
+	elif [[ $dnsn == "radar" ]]; then
+		if grep -q "nameserver 10.202.10.10" /etc/resolv.conf; then
+			echo -e "${green}Radar is active.${clear}"
+		else
+			echo -e "${red}Radar is not active.${clear}"
+		fi
+  elif [[ $dnsn == "403" ]]; then
+    if grep -q "nameserver 10.202.10.202" /etc/resolv.conf; then
+			echo -e "${green}403 is active.${clear}"
+    else
+			echo -e "${red}403 is not active.${clear}"
+    fi
+	else
+		if grep -q "nameserver ${dnsn}" /etc/resolv.conf; then
+			echo -e "${green}${dnsn} is active.${clear}"
+		else
+			echo -e "${red}${dnsn} is not active.${clear}"
+		fi
+	fi
+elif [[ $command == "off" ]]; then
+	if sudo -n true 2>/dev/null; then
+		echo "# This file is managed by man:systemd-resolved(8). Do not edit." > /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# This is a dynamic resolv.conf file for connecting local clients to the" >> /etc/resolv.conf
+		echo "# internal DNS stub resolver of systemd-resolved. This file lists all" >> /etc/resolv.conf
+		echo "# configured search domains." >> /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# Run "resolvectl status" to see details about the uplink DNS servers" >> /etc/resolv.conf
+		echo "# currently in use." >> /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# Third party programs must not access this file directly, but only through the" >> /etc/resolv.conf
+		echo "# symlink at /etc/resolv.conf. To manage man:resolv.conf(5) in a different way," >> /etc/resolv.conf
+		echo "# replace this symlink by a static file or a different symlink." >> /etc/resolv.conf
+		echo "#" >> /etc/resolv.conf
+		echo "# See man:systemd-resolved.service(8) for details about the supported modes of" >> /etc/resolv.conf
+		echo "# operation for /etc/resolv.conf." >> /etc/resolv.conf
+		echo "" >> /etc/resolv.conf
+		echo "nameserver 127.0.0.53" >> /etc/resolv.conf
+		echo "options edns0 trust-ad" >> /etc/resolv.conf
+		# Print
+		echo -e "${green}DNS was off successfully.${clear}"
+	else
+		echo -e "${red}Please grant sudo access first.${clear}"
+	fi
+elif [[ $command == "info" ]]; then
+	echo -e "${cyan}By Ilia Noori.${clear}"
+else
+	echo -e "${red}Please enter a command.${clear}"
+fi
