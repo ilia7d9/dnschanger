@@ -47,7 +47,7 @@ To verify if a DNS is currently active, you can use the following command:
 ```bash
 sudo dns status 403
 ```
-## Providing Feedback or Reporting Issues
+# Providing Feedback or Reporting Issues
 If you encounter any issues with the software or have ideas for improvement, we encourage you to share your feedback with us. Your input is valuable in enhancing the quality and functionality of the software.
 
 Feel free to reach out and provide details about any problems you encounter or share your ideas for making the software even better. Your collaboration helps us create a more effective and user-friendly experience for everyone.
